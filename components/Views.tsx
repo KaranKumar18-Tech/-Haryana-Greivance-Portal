@@ -79,7 +79,7 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
               <img
                 src="https://i.postimg.cc/T16nG9qT/image.png"
                 alt="Hon. Nayab Singh Saini, Chief Minister of Haryana"
-                className="w-48 h-48 md:w-64 md:h-64 object-cover object-top rounded-xl shadow-lg"
+                className="w-48 h-56 md:w-64 md:h-72 object-cover rounded-xl shadow-lg object-[center_20%]"
                 loading="lazy"
               />
               <div className="mt-4 text-center md:text-right">
