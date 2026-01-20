@@ -17,7 +17,7 @@ const App: React.FC = () => {
 
   // Restore session from localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('hp_user');
+    const storedUser = localStorage.getItem('hr_user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -25,9 +25,9 @@ const App: React.FC = () => {
 
   const handleAuthSuccess = (authenticatedUser: User) => {
     setUser(authenticatedUser);
-    localStorage.setItem('hp_user', JSON.stringify(authenticatedUser));
+    localStorage.setItem('hr_user', JSON.stringify(authenticatedUser));
     setShowAuthModal(false);
-    
+
     if (pendingView) {
       setView(pendingView);
       setPendingView(null);
@@ -39,7 +39,7 @@ const App: React.FC = () => {
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem('hp_user');
+    localStorage.removeItem('hr_user');
     setView('home');
     setSelectedGrievance(null);
   };
@@ -59,7 +59,7 @@ const App: React.FC = () => {
     if (!user) return;
 
     const newGrievance: Grievance = {
-      id: `HPG-${Date.now()}`,
+      id: `HRG-2025-${String(Date.now()).slice(-3)}`,
       subject: data.subject,
       description: data.description,
       location: data.location,
@@ -76,7 +76,7 @@ const App: React.FC = () => {
       replies: []
     };
 
-    const key = `hp_grievances_${user.mobile}`;
+    const key = `hr_grievances_${user.mobile}`;
     const existing = JSON.parse(localStorage.getItem(key) || "[]");
     localStorage.setItem(key, JSON.stringify([newGrievance, ...existing]));
 
@@ -110,7 +110,7 @@ const App: React.FC = () => {
     setSelectedGrievance(updatedGrievance);
 
     // Update LocalStorage
-    const key = `hp_grievances_${user.mobile}`;
+    const key = `hr_grievances_${user.mobile}`;
     const allGrievances = JSON.parse(localStorage.getItem(key) || "[]");
     const updatedList = allGrievances.map((g: Grievance) => g.id === updatedGrievance.id ? updatedGrievance : g);
     localStorage.setItem(key, JSON.stringify(updatedList));
@@ -123,8 +123,8 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen font-sans text-gray-900">
-      <Header 
-        user={user} 
+      <Header
+        user={user}
         onLogout={handleLogout}
         onLoginClick={() => setShowAuthModal(true)}
         onRegisterClick={() => setShowAuthModal(true)}
@@ -134,8 +134,8 @@ const App: React.FC = () => {
 
       <main className="flex-grow relative">
         {view === 'home' && (
-          <HomeView 
-            onFileGrievance={() => navigateTo('file-grievance')} 
+          <HomeView
+            onFileGrievance={() => navigateTo('file-grievance')}
             onTrack={() => navigateTo('track')}
           />
         )}
@@ -145,35 +145,35 @@ const App: React.FC = () => {
         )}
 
         {view === 'track' && user && (
-          <TrackGrievanceView 
-            user={user} 
+          <TrackGrievanceView
+            user={user}
             onViewDetails={handleViewDetails}
-            onBackToDashboard={() => setView('dashboard')} 
+            onBackToDashboard={() => setView('dashboard')}
           />
         )}
 
         {view === 'grievance-details' && selectedGrievance && (
-          <GrievanceDetailsView 
-            grievance={selectedGrievance} 
+          <GrievanceDetailsView
+            grievance={selectedGrievance}
             onBack={() => setView('track')}
             onReply={handleReplyGrievance}
           />
         )}
 
         {view === 'dashboard' && user && user.role === UserRole.CITIZEN && (
-           <CitizenDashboard 
-             user={user} 
+           <CitizenDashboard
+             user={user}
              onNavigate={(target, data) => {
                if (data) handleViewDetails(data);
                else navigateTo(target);
-             }} 
+             }}
            />
         )}
 
         {view === 'dashboard' && user && user.role === UserRole.GRO && (
           <GRODashboard />
         )}
-        
+
         {/* Fallback for unauthorized access to dashboard */}
         {view === 'dashboard' && user?.role !== UserRole.GRO && user?.role !== UserRole.CITIZEN && (
            <div className="text-center py-20">
@@ -184,18 +184,18 @@ const App: React.FC = () => {
       </main>
 
       {/* Global Chatbot Assistant */}
-      <ChatbotAssistant 
-        user={user} 
-        onNavigate={handleChatbotNavigate} 
+      <ChatbotAssistant
+        user={user}
+        onNavigate={handleChatbotNavigate}
         onLogin={() => setShowAuthModal(true)}
       />
 
       <Footer />
 
       {/* Authentication Modal */}
-      <Modal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
+      <Modal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
         title=""
       >
         <AuthWizard onAuthenticated={handleAuthSuccess} />

@@ -52,15 +52,15 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
         {/* Content Container */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-            
+
             {/* Text Content - Aligned Left */}
             <div className="w-full md:w-1/2 text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">
-                Jan Sunwai, <br />
+                Jan Samvad, <br />
                 Jan Samadhan
               </h1>
               <p className="text-xl mb-8 text-blue-100 max-w-lg drop-shadow-md leading-relaxed">
-                The official Grievance Portal for the citizens of Himachal Pradesh.
+                Official Public Grievance Redressal Portal of Haryana Government.
                 Transparent, Efficient, and Accountable Governance.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -77,14 +77,14 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
             {/* Image Content - Aligned Right */}
             <div className="w-full md:w-1/2 flex flex-col items-center md:items-end mt-8 md:mt-0">
               <img
-                src="https://i.ibb.co/tTdNfDGY/anurag.jpg"
-                alt="Sh. Anurag Singh Thakur – Minister of Youth Affairs & Sports"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Nayab_Singh_Saini.jpg/220px-Nayab_Singh_Saini.jpg"
+                alt="Hon. Nayab Singh Saini, Chief Minister of Haryana"
                 className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-xl shadow-lg"
                 loading="lazy"
               />
               <div className="mt-4 text-center md:text-right">
-                <p className="text-white font-bold text-lg leading-none text-shadow">Sh. Anurag Singh Thakur</p>
-                <p className="text-xs text-blue-100 font-semibold uppercase tracking-wider mt-1">Minister of Youth Affairs & Sports</p>
+                <p className="text-white font-bold text-lg leading-none text-shadow">Shri Nayab Singh Saini</p>
+                <p className="text-xs text-blue-100 font-semibold uppercase tracking-wider mt-1">Chief Minister, Haryana</p>
               </div>
             </div>
 
@@ -118,23 +118,23 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
 };
 
 // --- Citizen Dashboard ---
-export const CitizenDashboard: React.FC<{ 
-  user: User; 
-  onNavigate: (view: 'file-grievance' | 'track' | 'grievance-details', data?: any) => void 
+export const CitizenDashboard: React.FC<{
+  user: User;
+  onNavigate: (view: 'file-grievance' | 'track' | 'grievance-details', data?: any) => void
 }> = ({ user, onNavigate }) => {
   const [grievances, setGrievances] = useState<Grievance[]>([]);
   const [stats, setStats] = useState({ total: 0, open: 0, resolved: 0, reopened: 0 });
 
   useEffect(() => {
-    const key = `hp_grievances_${user.mobile}`;
+    const key = `hr_grievances_${user.mobile}`;
     const localGrievances = JSON.parse(localStorage.getItem(key) || "[]");
     const allGrievances = [...localGrievances, ...MOCK_GRIEVANCES];
-    
+
     // Sort by date descending
-    allGrievances.sort((a: Grievance, b: Grievance) => 
+    allGrievances.sort((a: Grievance, b: Grievance) =>
       new Date(b.dateFiled).getTime() - new Date(a.dateFiled).getTime()
     );
-    
+
     setGrievances(allGrievances);
 
     // Calculate stats
@@ -228,7 +228,7 @@ export const CitizenDashboard: React.FC<{
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(g.dateFiled).toLocaleDateString()}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">{getStatusBadge(g.status)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <button 
+                        <button
                           className="text-gov-blue hover:text-blue-800 font-medium"
                           onClick={() => onNavigate('grievance-details', g)}
                         >
@@ -260,8 +260,8 @@ interface ChatMessage {
   options?: { label: string; action: () => void }[];
 }
 
-export const ChatbotAssistant: React.FC<{ 
-  user: User | null; 
+export const ChatbotAssistant: React.FC<{
+  user: User | null;
   onNavigate: (view: 'file-grievance' | 'track', data?: any) => void;
   onLogin: () => void;
 }> = ({ user, onNavigate, onLogin }) => {
@@ -269,7 +269,7 @@ export const ChatbotAssistant: React.FC<{
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [mode, setMode] = useState<'MENU' | 'UPDATES' | 'FILE' | 'QNA'>('MENU');
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -290,28 +290,28 @@ export const ChatbotAssistant: React.FC<{
   const resetToMainMenu = () => {
     setMode('MENU');
     setMessages([
-      { sender: 'bot', text: 'Namaste! I am HP Assist. How can I help you today?' },
-      { 
-        sender: 'bot', 
-        isOptions: true, 
+      { sender: 'bot', text: 'Namaskar! I am Haryana Sahayak. How can I assist you with your grievance today?' },
+      {
+        sender: 'bot',
+        isOptions: true,
         options: [
           { label: 'Get updates on my filed grievances', action: () => handleOptionSelected('UPDATES') },
           { label: 'File a new grievance', action: () => handleOptionSelected('FILE') },
           { label: 'Other questions about this portal', action: () => handleOptionSelected('QNA') }
-        ] 
+        ]
       }
     ]);
   };
 
   const handleOptionSelected = (selectedMode: 'UPDATES' | 'FILE' | 'QNA') => {
     setMode(selectedMode);
-    
+
     // Add user selection to chat history
     let label = '';
     if (selectedMode === 'UPDATES') label = 'Get updates on my grievances';
     if (selectedMode === 'FILE') label = 'File a new grievance';
     if (selectedMode === 'QNA') label = 'Other questions';
-    
+
     setMessages(prev => [...prev, { sender: 'user', text: label }]);
 
     if (selectedMode === 'UPDATES') {
@@ -328,33 +328,33 @@ export const ChatbotAssistant: React.FC<{
       // Logged Out
       setTimeout(() => {
         setMessages(prev => [
-          ...prev, 
+          ...prev,
           { sender: 'bot', text: 'You are not logged in. I can only show limited recent grievance data without login.' },
-          { sender: 'bot', text: 'Demo Grievance 1: Road repair pending in Shimla – Status: In Progress' },
-          { sender: 'bot', text: 'Demo Grievance 2: Water Supply Issue in Mandi – Status: Resolved' },
+          { sender: 'bot', text: 'Demo Grievance 1: Road pothole complaint in Karnal – Status: In Progress' },
+          { sender: 'bot', text: 'Demo Grievance 2: Water Supply Issue in Gurugram – Status: Under Review' },
           { sender: 'bot', text: 'To view all your grievances and real data, please log in first.' },
-          { 
-            sender: 'bot', 
-            isOptions: true, 
+          {
+            sender: 'bot',
+            isOptions: true,
             options: [
               { label: 'Login to view all grievances', action: () => { setIsOpen(false); onLogin(); } },
               { label: 'Back to main options', action: resetToMainMenu }
-            ] 
+            ]
           }
         ]);
       }, 500);
     } else {
       // Logged In
-      const key = `hp_grievances_${user.mobile}`;
+      const key = `hr_grievances_${user.mobile}`;
       const localGrievances = JSON.parse(localStorage.getItem(key) || "[]");
       const allGrievances = [...localGrievances, ...MOCK_GRIEVANCES];
       const total = allGrievances.length;
       const inProgress = allGrievances.filter((g: any) => g.status === GrievanceStatus.IN_PROGRESS || g.status === GrievanceStatus.UNDER_REVIEW).length;
       const resolved = allGrievances.filter((g: any) => g.status === GrievanceStatus.RESOLVED || g.status === GrievanceStatus.CLOSED).length;
-      
+
       setTimeout(() => {
         setMessages(prev => [
-          ...prev, 
+          ...prev,
           { sender: 'bot', text: `You have ${total} total grievances filed.` },
           { sender: 'bot', text: `${inProgress} are In Progress/Review, ${resolved} are Resolved.` },
         ]);
@@ -365,14 +365,14 @@ export const ChatbotAssistant: React.FC<{
         }
 
         setMessages(prev => [
-          ...prev, 
-          { 
-            sender: 'bot', 
-            isOptions: true, 
+          ...prev,
+          {
+            sender: 'bot',
+            isOptions: true,
             options: [
               { label: 'Open My Grievances', action: () => { setIsOpen(false); onNavigate('track'); } },
               { label: 'Back to main options', action: resetToMainMenu }
-            ] 
+            ]
           }
         ]);
       }, 500);
@@ -385,13 +385,13 @@ export const ChatbotAssistant: React.FC<{
         setMessages(prev => [
           ...prev,
           { sender: 'bot', text: 'To file a new grievance, you need to log in first.' },
-          { 
-             sender: 'bot', 
-             isOptions: true, 
+          {
+             sender: 'bot',
+             isOptions: true,
              options: [
                { label: 'Login / Register now', action: () => { setIsOpen(false); onLogin(); } },
                { label: 'Back to main options', action: resetToMainMenu }
-             ] 
+             ]
           }
         ]);
       }, 500);
@@ -399,14 +399,14 @@ export const ChatbotAssistant: React.FC<{
       setTimeout(() => {
         setMessages(prev => [
           ...prev,
-          { sender: 'bot', text: 'Great, let us file a new grievance.' },
-          { 
-             sender: 'bot', 
-             isOptions: true, 
+          { sender: 'bot', text: 'Great, let us file a new grievance with Haryana Government.' },
+          {
+             sender: 'bot',
+             isOptions: true,
              options: [
                { label: 'Open Grievance Form', action: () => { setIsOpen(false); onNavigate('file-grievance'); } },
                { label: 'Back to main options', action: resetToMainMenu }
-             ] 
+             ]
           }
         ]);
       }, 500);
@@ -417,7 +417,7 @@ export const ChatbotAssistant: React.FC<{
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
-        { sender: 'bot', text: 'You can ask me questions about how to use this portal (e.g., how to file, documents needed, tracking).' },
+        { sender: 'bot', text: 'You can ask me questions about how to use this Haryana Grievance Portal (e.g., how to file, documents needed, tracking).' },
         { sender: 'bot', text: 'Go ahead, type your question below.' }
       ]);
     }, 500);
@@ -425,33 +425,35 @@ export const ChatbotAssistant: React.FC<{
 
   const handleSendInput = () => {
     if (!input.trim() || mode !== 'QNA') return;
-    
+
     setMessages(prev => [...prev, { sender: 'user', text: input }]);
     const txt = input.toLowerCase();
     setInput('');
 
     setTimeout(() => {
-      let reply = "I didn't quite understand that. Please ask about filing, tracking, or documents.";
-      
+      let reply = "I didn't quite understand that. Please ask about filing, tracking, or documents related to Haryana grievance process.";
+
       if (txt.includes('file') || txt.includes('filing')) {
-        reply = "To file a grievance: 1. Login to the portal. 2. Click on 'File Grievance' in the dashboard. 3. Fill in the details and submit.";
+        reply = "To file a grievance with Haryana Government: 1. Login to the portal. 2. Click on 'File Grievance' in the dashboard. 3. Select your district (Gurugram, Faridabad, Karnal, etc.), category, and fill in the details. 4. Submit your grievance.";
       } else if (txt.includes('track') || txt.includes('status')) {
-        reply = "To track a grievance: Go to your Dashboard and click 'View All Grievances'. You can see the realtime status there.";
+        reply = "To track a grievance: Go to your Dashboard and click 'View All Grievances'. You can see the realtime status there. Your grievance ID starts with HRG-.";
       } else if (txt.includes('document') || txt.includes('photo') || txt.includes('upload')) {
         reply = "You can upload JPG, PNG images or PDF documents. Please ensure files are clear and relevant to your complaint.";
       } else if (txt.includes('secure') || txt.includes('data') || txt.includes('privacy')) {
-        reply = "Your data is completely secure. We only share details with the assigned Nodal Officer for resolving the issue.";
+        reply = "Your data is completely secure with Haryana Government. We only share details with the assigned Nodal Officer for resolving the issue.";
+      } else if (txt.includes('district') || txt.includes('area')) {
+        reply = "This portal covers all Haryana districts including Gurugram, Faridabad, Panipat, Karnal, Hisar, Rohtak, Ambala, Yamunanagar, Sonipat, and Bhiwani.";
       }
 
       setMessages(prev => [
-        ...prev, 
+        ...prev,
         { sender: 'bot', text: reply },
-        { 
-          sender: 'bot', 
-          isOptions: true, 
+        {
+          sender: 'bot',
+          isOptions: true,
           options: [
             { label: 'Back to main options', action: resetToMainMenu }
-          ] 
+          ]
         }
       ]);
     }, 500);
@@ -462,12 +464,12 @@ export const ChatbotAssistant: React.FC<{
       {/* FAB */}
       <div className="fixed bottom-6 right-6 z-50">
         {!isOpen && (
-          <button 
+          <button
             onClick={() => setIsOpen(true)}
             className="bg-gov-blue text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all flex items-center gap-2 group"
             aria-label="Open Chatbot Assistant"
           >
-            <span className="hidden group-hover:inline-block font-medium pr-1 whitespace-nowrap">Need help? Ask HP Assist</span>
+            <span className="hidden group-hover:inline-block font-medium pr-1 whitespace-nowrap">Need help? Ask Haryana Sahayak</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
           </button>
         )}
@@ -480,7 +482,7 @@ export const ChatbotAssistant: React.FC<{
           <div className="bg-gov-blue text-white p-4 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-2">
                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-               <h3 className="font-bold">HP Assist</h3>
+               <h3 className="font-bold">Haryana Sahayak</h3>
             </div>
             <div className="flex gap-2">
               {mode !== 'MENU' && (
@@ -498,18 +500,18 @@ export const ChatbotAssistant: React.FC<{
               <div key={idx} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
                 {msg.text && (
                   <div className={`max-w-[85%] p-3 rounded-lg text-sm mb-1 ${
-                    msg.sender === 'user' 
-                      ? 'bg-gov-blue text-white rounded-br-none' 
+                    msg.sender === 'user'
+                      ? 'bg-gov-blue text-white rounded-br-none'
                       : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm whitespace-pre-line'
                   }`}>
                     {msg.text}
                   </div>
                 )}
-                
+
                 {msg.isOptions && msg.options && (
                   <div className="flex flex-col gap-2 mt-1 w-full max-w-[85%]">
                     {msg.options.map((opt, optIdx) => (
-                      <button 
+                      <button
                         key={optIdx}
                         onClick={opt.action}
                         className="bg-white border border-gov-blue text-gov-blue hover:bg-blue-50 text-sm font-medium py-2 px-3 rounded-lg text-left shadow-sm transition-colors"
@@ -535,8 +537,8 @@ export const ChatbotAssistant: React.FC<{
                   onKeyDown={e => e.key === 'Enter' && handleSendInput()}
                   disabled={mode !== 'QNA'}
                 />
-                <button 
-                  onClick={handleSendInput} 
+                <button
+                  onClick={handleSendInput}
                   disabled={mode !== 'QNA' || !input.trim()}
                   className="bg-gov-blue text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
@@ -593,20 +595,20 @@ export const AuthWizard: React.FC<{ onAuthenticated: (user: User) => void }> = (
 
   return (
     <div className="p-2">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gov-blue">Login to Grievance Portal</h2>
-      
+      <h2 className="text-2xl font-bold mb-6 text-center text-gov-blue">Login to Haryana Grievance Portal</h2>
+
       {step === 1 ? (
         <>
-          <Input 
-            label="Mobile Number" 
-            placeholder="Enter 10-digit mobile number" 
+          <Input
+            label="Mobile Number"
+            placeholder="Enter 10-digit mobile number"
             value={mobile}
             onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
             maxLength={10}
             error={error}
           />
           <Button fullWidth onClick={handleSendOTP} className="mt-2">Get OTP</Button>
-          
+
           <div className="mt-6 text-center pt-4 border-t">
             <p className="text-sm text-gray-500 mb-2">For Testing Purposes:</p>
             <button onClick={handleDemoLogin} className="text-xs text-gov-blue underline">
@@ -619,17 +621,17 @@ export const AuthWizard: React.FC<{ onAuthenticated: (user: User) => void }> = (
           <div className="mb-4 bg-blue-50 p-3 rounded text-sm text-blue-800">
             OTP sent to {mobile}. Use <strong>1234</strong> for testing.
           </div>
-          <Input 
-            label="Enter OTP" 
-            placeholder="X X X X" 
+          <Input
+            label="Enter OTP"
+            placeholder="X X X X"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             maxLength={4}
             error={error}
           />
           <Button fullWidth onClick={handleVerifyOTP} className="mt-2">Verify & Login</Button>
-          <button 
-            onClick={() => setStep(1)} 
+          <button
+            onClick={() => setStep(1)}
             className="w-full text-center mt-4 text-sm text-gray-500 hover:text-gov-blue"
           >
             Change Mobile Number
@@ -674,31 +676,31 @@ export const FileGrievanceView: React.FC<{ onSubmit: (data: any) => void; initia
       <h2 className="text-2xl font-bold mb-6 text-gov-dark">File a New Grievance</h2>
       {initialData && (
         <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded mb-6 text-sm flex items-center gap-2">
-          <span>✨ Form pre-filled from HP Assist chat. Please review and add location details.</span>
+          <span>Form pre-filled from Haryana Sahayak chat. Please review and add location details.</span>
         </div>
       )}
       <Card>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input 
-            label="Grievance Subject" 
-            placeholder="Brief title of your complaint" 
+          <Input
+            label="Grievance Subject"
+            placeholder="Brief title of your complaint"
             required
             value={formData.subject}
             onChange={e => setFormData({...formData, subject: e.target.value})}
           />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Select 
-              label="Grievance Category" 
+            <Select
+              label="Grievance Category"
               options={CATEGORIES}
               placeholder="Select Category"
               required
               value={formData.category}
               onChange={e => setFormData({...formData, category: e.target.value})}
             />
-            <Select 
-              label="District" 
-              options={DISTRICTS} 
+            <Select
+              label="District"
+              options={DISTRICTS}
               placeholder="Select District"
               required
               value={formData.district}
@@ -706,17 +708,17 @@ export const FileGrievanceView: React.FC<{ onSubmit: (data: any) => void; initia
             />
           </div>
 
-          <Input 
-            label="Specific Location / Address" 
-            placeholder="Ward number, Village, Landmark..." 
+          <Input
+            label="Specific Location / Address"
+            placeholder="Ward number, Village, Sector, Landmark..."
             required
             value={formData.location}
             onChange={e => setFormData({...formData, location: e.target.value})}
           />
 
-          <TextArea 
-            label="Detailed Description" 
-            placeholder="Please describe your issue in detail..." 
+          <TextArea
+            label="Detailed Description"
+            placeholder="Please describe your issue in detail..."
             rows={5}
             required
             value={formData.description}
@@ -725,17 +727,17 @@ export const FileGrievanceView: React.FC<{ onSubmit: (data: any) => void; initia
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Attach Photos/Documents (Optional)</label>
-            <input 
-              type="file" 
+            <input
+              type="file"
               className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-gov-blue hover:file:bg-blue-100"
               onChange={e => setFormData({...formData, files: e.target.files})}
             />
           </div>
 
           <div className="flex items-center gap-2 py-2">
-            <input 
-              type="checkbox" 
-              id="anon" 
+            <input
+              type="checkbox"
+              id="anon"
               checked={formData.isAnonymized}
               onChange={e => setFormData({...formData, isAnonymized: e.target.checked})}
               className="w-4 h-4 text-gov-blue rounded focus:ring-gov-blue"
@@ -753,8 +755,8 @@ export const FileGrievanceView: React.FC<{ onSubmit: (data: any) => void; initia
 };
 
 // --- Track Grievance View ---
-export const TrackGrievanceView: React.FC<{ 
-  user: User; 
+export const TrackGrievanceView: React.FC<{
+  user: User;
   onViewDetails: (g: Grievance) => void;
   onBackToDashboard: () => void;
 }> = ({ user, onViewDetails, onBackToDashboard }) => {
@@ -762,18 +764,18 @@ export const TrackGrievanceView: React.FC<{
 
   useEffect(() => {
     // Load user's local grievances
-    const key = `hp_grievances_${user.mobile}`;
+    const key = `hr_grievances_${user.mobile}`;
     const localGrievances = JSON.parse(localStorage.getItem(key) || "[]");
-    
+
     // Combine with Mock data for demonstration purposes
     // In a real app, this would be an API call fetching by user ID
     const allGrievances = [...localGrievances, ...MOCK_GRIEVANCES];
-    
+
     // Sort by date descending
-    allGrievances.sort((a: Grievance, b: Grievance) => 
+    allGrievances.sort((a: Grievance, b: Grievance) =>
       new Date(b.dateFiled).getTime() - new Date(a.dateFiled).getTime()
     );
-    
+
     setGrievances(allGrievances);
   }, [user.mobile]);
 
@@ -794,7 +796,7 @@ export const TrackGrievanceView: React.FC<{
          </Button>
       </div>
       <h2 className="text-2xl font-bold mb-6 text-gov-dark">My Grievances</h2>
-      
+
       {grievances.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <p className="text-gray-500">No grievances found.</p>
@@ -825,8 +827,8 @@ export const TrackGrievanceView: React.FC<{
 };
 
 // --- Grievance Details View ---
-export const GrievanceDetailsView: React.FC<{ 
-  grievance: Grievance; 
+export const GrievanceDetailsView: React.FC<{
+  grievance: Grievance;
   onBack: () => void;
   onReply: (msg: string) => void;
 }> = ({ grievance, onBack, onReply }) => {
@@ -853,7 +855,7 @@ export const GrievanceDetailsView: React.FC<{
                 <p className="text-sm text-gray-500">Filed on {new Date(grievance.dateFiled).toLocaleDateString()} • ID: {grievance.id}</p>
               </div>
               <Badge type={
-                grievance.status === GrievanceStatus.CLOSED ? 'success' : 
+                grievance.status === GrievanceStatus.CLOSED ? 'success' :
                 grievance.status === GrievanceStatus.UNDER_REVIEW ? 'warning' : 'info'
               }>
                 {grievance.status}
@@ -895,7 +897,7 @@ export const GrievanceDetailsView: React.FC<{
             <div className="prose max-w-none">
               <h3 className="text-lg font-semibold mb-2">Description</h3>
               <p className="text-gray-700 whitespace-pre-wrap mb-4">{grievance.description}</p>
-              
+
               <h3 className="text-lg font-semibold mb-2">Details</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div><span className="font-semibold">District:</span> {grievance.district}</div>
@@ -923,7 +925,7 @@ export const GrievanceDetailsView: React.FC<{
               )}
             </div>
             <div className="flex gap-2">
-              <input 
+              <input
                 className="flex-grow border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-gov-blue outline-none"
                 placeholder="Add a remark or query..."
                 value={replyText}
@@ -941,7 +943,7 @@ export const GrievanceDetailsView: React.FC<{
               {grievance.timeline.map((event, idx) => (
                 <div key={idx} className="relative pl-6">
                   <span className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${
-                    event.status === 'completed' ? 'bg-gov-success border-gov-success' : 
+                    event.status === 'completed' ? 'bg-gov-success border-gov-success' :
                     event.status === 'current' ? 'bg-white border-gov-accent' : 'bg-gray-200 border-gray-300'
                   }`}></span>
                   <p className="font-medium text-sm">{event.label}</p>
@@ -956,23 +958,28 @@ export const GrievanceDetailsView: React.FC<{
   );
 };
 
-// --- GRO Dashboard (Placeholder) ---
+// --- GRO Dashboard (Haryana Grievance Control Panel) ---
 export const GRODashboard: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Nodal Officer Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6">Haryana Grievance Control Panel</h1>
+      <p className="text-gray-600 mb-6">Nodal Officer Dashboard - Haryana Departments</p>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <Card className="border-l-4 border-blue-500">
            <h3 className="text-gray-500 text-sm">Total Grievances</h3>
            <p className="text-2xl font-bold">142</p>
         </Card>
         <Card className="border-l-4 border-yellow-500">
-           <h3 className="text-gray-500 text-sm">Pending</h3>
+           <h3 className="text-gray-500 text-sm">Pending (Normal)</h3>
            <p className="text-2xl font-bold">28</p>
         </Card>
-        <Card className="border-l-4 border-green-500">
-           <h3 className="text-gray-500 text-sm">Resolved</h3>
-           <p className="text-2xl font-bold">114</p>
+        <Card className="border-l-4 border-orange-500">
+           <h3 className="text-gray-500 text-sm">Important</h3>
+           <p className="text-2xl font-bold">8</p>
+        </Card>
+        <Card className="border-l-4 border-red-500">
+           <h3 className="text-gray-500 text-sm">Urgent</h3>
+           <p className="text-2xl font-bold">3</p>
         </Card>
       </div>
       <Card>
