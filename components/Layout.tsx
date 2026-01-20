@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <h3 className="font-bold text-lg mb-3">Haryana Grievance Portal</h3>
-            <p className="text-sm text-gray-400">Official Public Grievance Redressal System of Government of Haryana (Demo POC)</p>
+            <p className="text-sm text-gray-400">Official Public Grievance Redressal System of Government of Haryana</p>
           </div>
           <div>
             <h4 className="font-semibold mb-3">Quick Links</h4>
@@ -101,7 +101,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
         <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Government of Haryana — Public Grievance Redressal System (Demo POC)</p>
+          <p>&copy; {new Date().getFullYear()} Government of Haryana — Public Grievance Redressal System</p>
           <p className="mt-2 md:mt-0">All Rights Reserved.</p>
         </div>
       </div>
