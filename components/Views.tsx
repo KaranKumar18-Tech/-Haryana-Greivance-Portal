@@ -78,7 +78,7 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
             <div className="w-full md:w-1/2 flex flex-col items-center md:items-end mt-8 md:mt-0">
               <div className="w-48 h-56 md:w-64 md:h-72 rounded-xl shadow-lg overflow-hidden">
                 <img
-                  src="https://i.postimg.cc/T16nG9qT/image.png"
+                  src="https://www.brutimes.com/cache/Nayab_Singh_Saini_CM_1200_x_630.webp"
                   alt="Hon. Nayab Singh Saini, Chief Minister of Haryana"
                   className="w-full h-full object-cover scale-[1.3]"
                   style={{ objectPosition: 'center 40px' }}
