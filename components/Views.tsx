@@ -76,12 +76,14 @@ export const HomeView: React.FC<{ onFileGrievance: () => void; onTrack: () => vo
 
             {/* Image Content - Aligned Right */}
             <div className="w-full md:w-1/2 flex flex-col items-center md:items-end mt-8 md:mt-0">
-              <img
-                src="https://i.postimg.cc/T16nG9qT/image.png"
-                alt="Hon. Nayab Singh Saini, Chief Minister of Haryana"
-                className="w-48 h-56 md:w-64 md:h-72 object-cover rounded-xl shadow-lg object-[center_20%]"
-                loading="lazy"
-              />
+              <div className="w-48 h-56 md:w-64 md:h-72 rounded-xl shadow-lg overflow-hidden">
+                <img
+                  src="https://i.postimg.cc/T16nG9qT/image.png"
+                  alt="Hon. Nayab Singh Saini, Chief Minister of Haryana"
+                  className="w-full h-full object-cover scale-[1.35] object-center"
+                  loading="lazy"
+                />
+              </div>
               <div className="mt-4 text-center md:text-right">
                 <p className="text-white font-bold text-lg leading-none text-shadow">Shri Nayab Singh Saini</p>
                 <p className="text-xs text-blue-100 font-semibold uppercase tracking-wider mt-1">Chief Minister, Haryana</p>
